@@ -8,16 +8,21 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>         
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="串口"  VerticalAlignment="Center" Margin="10"></TextBlock>
+            <ComboBox Width="80" VerticalAlignment="Center" Margin="10"></ComboBox>
+            <Button Content="开始采集" VerticalAlignment="Center" Margin="10"></Button>
+            <Button Content="停止采集" VerticalAlignment="Center" Margin="10"></Button>
+        </StackPanel>
+        <TabControl Grid.Row="1" Background="WhiteSmoke">
+            <TabItem x:Name="tab1">
+             
+            </TabItem>
+           
+        </TabControl>
         
     </Grid>
 </Window>

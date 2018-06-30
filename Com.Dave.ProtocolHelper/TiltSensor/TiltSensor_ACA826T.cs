@@ -12,7 +12,6 @@ namespace TiltSensor
     /// </summary>
     public class TiltSensor_ACA826T
     {
-
         private byte _frameIdentifier = 0x68;
         private SerialPort _port = new SerialPort() { BaudRate = 9600, StopBits = StopBits.One, DataBits = 8, Parity = Parity.None, PortName = "COM3" };
         public TiltSensor_ACA826T()
