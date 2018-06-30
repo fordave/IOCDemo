@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CommonEnum.cs" />
     <Compile Include="Interface\IProtocolHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TiltSensor_ACA826T.cs" />
