@@ -24,5 +24,10 @@ namespace WpfTest
         {
             InitializeComponent();
         }
+
+        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -1,0 +1,27 @@
+﻿<Window x:Class="WpfTest.View.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfTest.View"
+        xmlns:sparrow="http://sparrowtoolkit.codeplex.com/wpf"
+        mc:Ignorable="d"
+        Title="Window1" Height="300" Width="300">    
+    <Grid>
+        <sparrow:SparrowChart>
+            <sparrow:SparrowChart.XAxis>
+                <sparrow:LinearXAxis MinValue="0" MaxValue="100" MinorTicksCount="10">
+                   
+                </sparrow:LinearXAxis>
+            </sparrow:SparrowChart.XAxis>
+            <sparrow:SparrowChart.YAxis>
+                <sparrow:LinearYAxis MinValue="0" MaxValue="100" MinorTicksCount="10">
+
+                </sparrow:LinearYAxis>
+            </sparrow:SparrowChart.YAxis>
+            <sparrow:ScatterSeries x:Name="scatter1" XPath="Xpath" YPath="Ypath" Stroke="Black" ScatterSize="5" Fill="Black">
+               
+            </sparrow:ScatterSeries>
+        </sparrow:SparrowChart>
+    </Grid>
+</Window>

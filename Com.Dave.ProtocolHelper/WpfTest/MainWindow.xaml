@@ -66,9 +66,15 @@
                         <xceed:DateTimePicker x:Name="picker1" VerticalAlignment="Center"  TimeFormatString="yyyy-MM-dd HH:mm:ss" TimeFormat="Custom" Format="Custom" FormatString="yyyy-MM-dd HH:mm:ss" IsOpen="True"></xceed:DateTimePicker>                     
                         <Label Content="-"></Label>
                         <xceed:DateTimePicker x:Name="picker2" VerticalAlignment="Center"   TimeFormatString="yyyy-MM-dd HH:mm:ss" TimeFormat="Custom" Format="Custom" FormatString="yyyy-MM-dd HH:mm:ss" IsOpen="True"></xceed:DateTimePicker>
+                        <Button VerticalAlignment="Center" Content="查询" x:Name="btnSelect" Margin="10,1,10,1" Click="btnSelect_Click"></Button>
                     </StackPanel>
                     <sparrow:SparrowChart Grid.Row="1">
-                    
+                        <sparrow:SparrowChart.XAxis>
+                            <sparrow:LinearXAxis ></sparrow:LinearXAxis>
+                        </sparrow:SparrowChart.XAxis>
+                        <sparrow:ScatterSeries>
+                          
+                        </sparrow:ScatterSeries>
                     </sparrow:SparrowChart>
                 </Grid>
             </TabItem>
