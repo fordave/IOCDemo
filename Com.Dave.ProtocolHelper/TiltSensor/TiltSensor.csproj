@@ -57,6 +57,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Com.Dave.Common\Com.Dave.Common.csproj">
+      <Project>{7F496DDC-A013-478E-A413-BD8B6E38AFD4}</Project>
+      <Name>Com.Dave.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Com.Dave.DAL\Com.Dave.DAL.csproj">
       <Project>{c128ca4a-3c9c-40d0-99ba-a480b4dc7e6b}</Project>
       <Name>Com.Dave.DAL</Name>

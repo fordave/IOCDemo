@@ -66,5 +66,11 @@ namespace TiltSensor.Entity
                 _collectTime = value;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("x轴：{0:000.0000}\tY轴：{1:000.0000}\t温度：{2:000.0000}\t采集时间：{3}", 
+                _xAsixDataValue, _yAsixDataValue, _temperatureDataValue, _collectTime);
+        }
     }
 }

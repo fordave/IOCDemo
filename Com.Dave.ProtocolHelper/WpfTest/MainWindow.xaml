@@ -3,13 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xceed="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:local="clr-namespace:WpfTest"
+        xmlns:sparrow="http://sparrowtoolkit.codeplex.com/wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Width" Value="90"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>         
+            <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="串口"  VerticalAlignment="Center" Margin="10"></TextBlock>
@@ -18,11 +33,46 @@
             <Button Content="停止采集" VerticalAlignment="Center" Margin="10"></Button>
         </StackPanel>
         <TabControl Grid.Row="1" Background="WhiteSmoke">
-            <TabItem x:Name="tab1">
-             
+            <TabItem x:Name="tab1" Header="实时数据">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="XASIX"></TextBlock>
+                    <TextBlock Text="YASIX" Grid.Row="1"></TextBlock>
+                    <TextBlock Text="Temperature" Grid.Row="2"></TextBlock>
+                    <TextBlock Text="Time" Grid.Row="3"></TextBlock>
+                    <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                    <TextBox Grid.Row="2" Grid.Column="1"></TextBox>
+                    <TextBox Grid.Row="3" Grid.Column="1"></TextBox>
+                </Grid>
             </TabItem>
-           
+            <TabItem x:Name="tab2" Header="数据图表">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>                       
+                        <RowDefinition Height="6*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="time"></TextBlock>
+                        <xceed:DateTimePicker x:Name="picker1" VerticalAlignment="Center"  TimeFormatString="yyyy-MM-dd HH:mm:ss" TimeFormat="Custom" Format="Custom" FormatString="yyyy-MM-dd HH:mm:ss" IsOpen="True"></xceed:DateTimePicker>                     
+                        <Label Content="-"></Label>
+                        <xceed:DateTimePicker x:Name="picker2" VerticalAlignment="Center"   TimeFormatString="yyyy-MM-dd HH:mm:ss" TimeFormat="Custom" Format="Custom" FormatString="yyyy-MM-dd HH:mm:ss" IsOpen="True"></xceed:DateTimePicker>
+                    </StackPanel>
+                    <sparrow:SparrowChart Grid.Row="1">
+                    
+                    </sparrow:SparrowChart>
+                </Grid>
+            </TabItem>
         </TabControl>
-        
+
     </Grid>
 </Window>
