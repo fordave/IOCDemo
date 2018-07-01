@@ -12,7 +12,8 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            TiltSensor_ACA826T tilt = new TiltSensor_ACA826T("COM1");
+            string datasource = @"data source =.\DBFile\demo.db;Version=3";
+            TiltSensor_ACA826T tilt = new TiltSensor_ACA826T("COM1", datasource);
             tilt.StartCollectData();
             Console.Read();
             tilt.StopCollectData();
