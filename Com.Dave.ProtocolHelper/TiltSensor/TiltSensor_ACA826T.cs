@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,12 @@ namespace TiltSensor
     /// <summary>
     /// ACA826T-全温补高精度数字输出型双轴倾角传感器
     /// </summary>
-    public class TiltSensor_ACA826T:IDisposable
+    public class TiltSensor_ACA826T : IDisposable
     {
+        public Thread _thread;
+        private List<int> _frameHeadIndexList;
         private byte _frameIdentifier = 0x68;
+        private Stopwatch _stopwatch = new Stopwatch();
         /// <summary>
         /// 
         /// </summary>
@@ -25,14 +29,17 @@ namespace TiltSensor
         private SerialPort _port = new SerialPort() { BaudRate = 9600, StopBits = StopBits.One, DataBits = 8, Parity = Parity.None, PortName = "COM3" };
         public TiltSensor_ACA826T(string portName)
         {
-            _port.PortName = portName;      
-                     
+            _port.PortName = portName;
+            _thread = new Thread(ThreadSendAndReceive) { IsBackground = true };
         }
         public void StartCollectData()
         {
             flag = true;
-            Thread thread = new Thread(ThreadSendAndReceive) { IsBackground = true };
-            thread.Start();
+            _thread.Start();
+        }
+        public void StopCollectData()
+        {
+            flag = false;
         }
         /// <summary>
         /// 
@@ -74,16 +81,48 @@ namespace TiltSensor
                         _portReceivedTimeOutCount = 0;
                         byte[] buffers = new byte[_offset];
                         _port.Read(buffers, 0, _offset);
-                        Console.WriteLine("\r\n{0:D2}s{1:D3}ms Data Received:", DateTime.Now.Second, DateTime.Now.Millisecond);
-                        foreach (byte item in buffers)
+
+                        CheckFrame(buffers);
+                        if (_frameHeadIndexList.Count > 0)
                         {
-                            Console.Write(item.ToString("X2") + " ");
+                            foreach (int item in _frameHeadIndexList)
+                            {
+                                if (buffers[item + 3] == 0x84)
+                                {
+
+                                    _portOperatingResult = SerialPortOperationResult.Succeessful;
+                                    break;
+                                }
+                            }
                         }
-                        Console.WriteLine("\r\nlength:" + buffers.Length);
+                        else
+                        {
+                            _portOperatingResult = SerialPortOperationResult.Failed;
+                        }
                         _offset = 0;
                     }
                 }
             }
+        }
+        private void CheckFrame(byte[] buffer)
+        {
+            _frameHeadIndexList = new List<int>();
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                if (buffer[i] == _frameIdentifier && i + 1 < buffer.Length && i + buffer[i + 1] < buffer.Length)
+                {
+                    int CS = 0, temp = i + 1, length = buffer[temp];
+                    for (; temp < length - 1; temp++)
+                    {
+                        CS += buffer[temp];
+                    }
+                    if (buffer[length + temp - 1] == (byte)CS)
+                    {
+                        _frameHeadIndexList.Add(i);
+                    }
+                }
+            }
+
         }
         /// <summary>
         /// 串口发送接收
@@ -93,12 +132,40 @@ namespace TiltSensor
             if (!_port.IsOpen)
             {
                 Port.Open();
-            }           
+            }
             while (flag)
             {
                 Thread.Sleep(10);
+                switch (_portOperationState)
+                {
+                    case SerialPortOperationState.None:
+                        break;
+                    case SerialPortOperationState.Send:
+                        break;
+                    case SerialPortOperationState.Receive:
+                        long time = _stopwatch.ElapsedMilliseconds;
+                        if (time > 1000)
+                        {
+                            _stopwatch.Stop();
+                            _stopwatch.Reset();
+                            _portOperatingResult = SerialPortOperationResult.Failed;
+                        }
+                        switch (_portOperatingResult)
+                        {
+                            case SerialPortOperationResult.None:
+                                SerialPortReceive();
+                                break;
+                            case SerialPortOperationResult.Succeessful:
+                                _portOperationState = SerialPortOperationState.Send;
+                                break;
+                            case SerialPortOperationResult.Failed:
+                                _portOperationState = SerialPortOperationState.Send;
+                                break;
+                        }
 
-               
+                        break;
+                }
+
             }
             flag = false;
             if (_port.IsOpen)
@@ -107,10 +174,18 @@ namespace TiltSensor
             }
         }
 
-        void Dispose()
+        public void Dispose()
         {
             flag = false;
-            _port.Dispose();
+            try
+            {
+                _port.Dispose();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
 
         }
     }

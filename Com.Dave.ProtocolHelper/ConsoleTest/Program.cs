@@ -11,10 +11,10 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            TiltSensor_ACA826T tilt = new TiltSensor_ACA826T();
+           // TiltSensor_ACA826T tilt = new TiltSensor_ACA826T();
 
              Console.Read();
-            tilt.Port.Close();
+           // tilt.Port.Close();
         }
     }
 }
