@@ -6,22 +6,23 @@
         xmlns:local="clr-namespace:WpfTest.View"
         xmlns:sparrow="http://sparrowtoolkit.codeplex.com/wpf"
         mc:Ignorable="d"
-        Title="Window1" Height="300" Width="300">    
+        Title="Window1" Height="300" Width="300">
     <Grid>
-        <sparrow:SparrowChart>
-            <sparrow:SparrowChart.XAxis>
-                <sparrow:LinearXAxis MinValue="0" MaxValue="100" MinorTicksCount="10">
-                   
+        <sparrow:SparrowChart Margin="10">
+            <sparrow:SparrowChart.XAxis >
+                <sparrow:LinearXAxis MinValue="0" MaxValue="100" MinorTicksCount="9" Header="X">
+
                 </sparrow:LinearXAxis>
             </sparrow:SparrowChart.XAxis>
             <sparrow:SparrowChart.YAxis>
-                <sparrow:LinearYAxis MinValue="0" MaxValue="100" MinorTicksCount="10">
+                <sparrow:LinearYAxis MinValue="0" MaxValue="100" MinorTicksCount="19" Header="Y">
 
                 </sparrow:LinearYAxis>
             </sparrow:SparrowChart.YAxis>
             <sparrow:ScatterSeries x:Name="scatter1" XPath="Xpath" YPath="Ypath" Stroke="Black" ScatterSize="5" Fill="Black">
-               
+
             </sparrow:ScatterSeries>
         </sparrow:SparrowChart>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="kaishi" Click="Button_Click"></Button>
     </Grid>
 </Window>

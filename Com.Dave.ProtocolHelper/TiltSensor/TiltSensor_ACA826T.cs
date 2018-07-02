@@ -2,6 +2,7 @@
 using Com.Dave.DAL.DBHelper;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
@@ -12,15 +13,34 @@ using static TiltSensor.Common.CommonEnum;
 
 namespace TiltSensor
 {
+    public class UpdateEventArgs : EventArgs
+    {
+        private List<TiltSensorModel> _tiltSensorModelCollection;
+
+        public List<TiltSensorModel> TiltSensorModelCollection
+        {
+            get
+            {
+                return _tiltSensorModelCollection;
+            }
+
+            set
+            {
+                _tiltSensorModelCollection = value;
+            }
+        }
+    }
     /// <summary>
     /// ACA826T-全温补高精度数字输出型双轴倾角传感器
     /// </summary>
     public class TiltSensor_ACA826T : IDisposable
     {
+        public event EventHandler<UpdateEventArgs> UpdateEvent;
         private string _connectString = string.Empty;
         private delegate void DataInsertDelegate();
         private DataInsertDelegate _dataInsert;
         private Queue<TiltSensorModel> _tiltSensorModelQueue = new Queue<TiltSensorModel>();
+        private List<TiltSensorModel> _tiltSensorModelCollection = new List<TiltSensorModel>();
         public Thread _thread;
         private byte[] _readAngleCommand;
         private List<int> _frameHeadIndexList;
@@ -35,19 +55,33 @@ namespace TiltSensor
         /// </summary>
         private SerialPortOperationResult _portOperatingResult = SerialPortOperationResult.None;
         private SerialPort _port = new SerialPort() { BaudRate = 9600, StopBits = StopBits.One, DataBits = 8, Parity = Parity.None };
-        public TiltSensor_ACA826T(string portName,string connectString)
+        public TiltSensor_ACA826T(string connectString)
         {
-            _port.PortName = portName;
             _connectString = connectString;
             _dataInsert = new DataInsertDelegate(DataInsert);
             _readAngleCommand = StrHexHelper.StringToHex("68 04 00 04 08");
             _thread = new Thread(ThreadSendAndReceive) { IsBackground = true };
+        }
+
+        private void FireUpdateEvent()
+        {
+            if (UpdateEvent != null)
+            {
+                List<TiltSensorModel> tiltSensorModelCollection = new List<TiltSensorModel>();
+                for (int i = 0; i < TiltSensorModelCollection.Count; i++)
+                {
+                    tiltSensorModelCollection.Add(TiltSensorModelCollection[i]);
+                }
+                UpdateEvent(null, new TiltSensor.UpdateEventArgs() { TiltSensorModelCollection = tiltSensorModelCollection });
+            }
         }
         private string _sqlInsert = @"insert into tiltsensor(xdatavalue,ydatavalue,temperaturedatavalue,time) values";
         private void DataInsert()
         {
             if (_tiltSensorModelQueue.Count == 0)
                 return;
+            FireUpdateEvent();
+            TiltSensorModelCollection.Clear();
             StringBuilder sb = new StringBuilder();
             sb.Append(_sqlInsert);
             while (_tiltSensorModelQueue.Count > 0)
@@ -62,16 +96,21 @@ namespace TiltSensor
             }
             sb.Remove(sb.Length - 1, 1);
             sb.Append(";");
-            SQLiteHelper.ExecuteNonQuery(_connectString, sb.ToString(),null);
+            SQLiteHelper.ExecuteNonQuery(_connectString, sb.ToString(), null);
         }
-        public void StartCollectData()
+        public void StartCollectData(string portName)
         {
+            if (flag)
+                return;
+            _port.PortName = portName;
             flag = true;
             _portOperationState = SerialPortOperationState.Send;
             _thread.Start();
         }
         public void StopCollectData()
         {
+            if (!flag)
+                return;
             flag = false;
         }
         /// <summary>
@@ -93,6 +132,20 @@ namespace TiltSensor
                 _port = value;
             }
         }
+
+        public List<TiltSensorModel> TiltSensorModelCollection
+        {
+            get
+            {
+                return _tiltSensorModelCollection;
+            }
+
+            set
+            {
+                _tiltSensorModelCollection = value;
+            }
+        }
+
         private void SerialPortSend()
         {
             int second = DateTime.Now.Second;
@@ -100,7 +153,11 @@ namespace TiltSensor
             {
                 return;
             }
-            if (_previousSecond == 59)
+            //if (_previousSecond == 59)
+            //{
+            //    _dataInsert.BeginInvoke(null, null);
+            //}
+            if (_previousSecond % 10 == 0)
             {
                 _dataInsert.BeginInvoke(null, null);
             }
@@ -144,7 +201,9 @@ namespace TiltSensor
                             {
                                 if (buffers[item + 3] == 0x84)
                                 {
-                                    _tiltSensorModelQueue.Enqueue(GetTiltSensorModel(buffers, item));
+                                    var tilt = GetTiltSensorModel(buffers, item);
+                                    TiltSensorModelCollection.Add(tilt);
+                                    _tiltSensorModelQueue.Enqueue(tilt);
                                     _portOperatingResult = SerialPortOperationResult.Succeessful;
                                     break;
                                 }
