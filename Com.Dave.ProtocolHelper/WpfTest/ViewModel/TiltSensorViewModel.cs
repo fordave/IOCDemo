@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Com.Dave.DAL.DBHelper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using TiltSensor;
@@ -18,7 +20,7 @@ namespace WpfTest.ViewModel
 
         private void _tiltSensor_UpdateEvent(object sender, UpdateEventArgs e)
         {
-            
+
         }
 
         private ObservableCollection<TiltSensorModel> _tiltSensorModelCollection = new ObservableCollection<TiltSensorModel>();
@@ -53,16 +55,33 @@ namespace WpfTest.ViewModel
         private TiltSensor_ACA826T _tiltSensor;
         public void CollectData(string portName)
         {
-            TiltSensor.StartCollectData(portName);          
+            TiltSensor.StartCollectData(portName);
         }
         public void StopCollectData()
         {
             if (TiltSensor != null)
             {
                 TiltSensor.StopCollectData();
-                TiltSensor.Dispose();
-                TiltSensor = null;
             }
+        }
+        string _sqlSelectTop100 = @"SELECT
+	                                    xasixdatavalue,
+	                                    yasixdatavalue 
+                                    FROM
+	                                    tiltsensor 	                                   
+                                    WHERE
+	                                    time BETWEEN '";
+        public DataTable GetDataTable(string startTime, string endTime)
+        {
+           // string sql = _sqlSelectTop100 + startTime + "' and '" + endTime + "';";
+          string sql = _sqlSelectTop100 + startTime + "' and '" + endTime + "' LIMIT 100;";
+            var t1 = DateTime.Now;
+            DataSet set = SQLiteHelper.ExecuteDataSet(_datasource, sql, null);
+            var t2 = DateTime.Now;
+            Console.WriteLine("time cost :{0};", t2 - t1);
+            var tt = set.Tables[0];
+            Console.WriteLine("table row :{0}", tt.Rows.Count);
+            return tt;
 
         }
         public void Dispose()

@@ -66,7 +66,13 @@ namespace TiltSensor.Entity
                 _collectTime = value;
             }
         }
-
+        private Random random;
+        public void HandleData()
+        {
+            random = new Random(DateTime.Now.Millisecond);
+            _xAsixDataValue += random.NextDouble() * 0.02;
+            _yAsixDataValue += random.NextDouble() * 0.02;
+        }
         public override string ToString()
         {
             return string.Format("x轴：{0:000.0000}\tY轴：{1:000.0000}\t温度：{2:000.0000}\t采集时间：{3}", 

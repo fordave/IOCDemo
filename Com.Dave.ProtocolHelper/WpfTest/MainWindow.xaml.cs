@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.Dave.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
@@ -31,17 +32,19 @@ namespace WpfTest
             InitializeComponent();
             cmbSerialPort.ItemsSource = SerialPort.GetPortNames();
             datagrid1.ItemsSource = TiltSensorModelCollection;
+            scatter1.PointsSource = TiltSensorModelList;
         }
 
         private void TiltSensor_UpdateEvent(object sender, TiltSensor.UpdateEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() => {
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
                 for (int i = 0; i < e.TiltSensorModelCollection.Count; i++)
                 {
                     _tiltSensorModelCollection.Add(e.TiltSensorModelCollection[i]);
                 }
             }));
-           
+
         }
         private ObservableCollection<TiltSensorModel> _tiltSensorModelCollection = new ObservableCollection<TiltSensorModel>();
 
@@ -85,7 +88,7 @@ namespace WpfTest
                 _tiltSensorModelCollection = value;
             }
         }
-
+        private bool _isEnableButton = false;
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
@@ -100,15 +103,41 @@ namespace WpfTest
                         return;
                     }
                     TiltSensorViewModel.CollectData(cmbSerialPort.SelectedItem as string);
+                    btnCollect.IsEnabled = _isEnableButton;
+                    btnStopCollect.IsEnabled = !_isEnableButton;
                     break;
                 case "btnStopCollect":
+                    btnCollect.IsEnabled = !_isEnableButton;
+                    btnStopCollect.IsEnabled = _isEnableButton;
+                    TiltSensorViewModel.StopCollectData();
+                    break;
+                case "btnSelect":
+                    if (picker1.Value == null || picker2.Value == null)
+                    {
+                        MessageBox.Show("select timespan fisrt");
+                        return;
+                    }
+                    var tt = TiltSensorViewModel.GetDataTable(((DateTime)picker1.Value).ToString("yyyy-MM-dd HH:mm:ss"), ((DateTime)picker2.Value).ToString("yyyy-MM-dd HH:mm:ss"));
+                    if (tt != null)
+                    {
+                        var t1 = DataTableListHelper<TiltSensorModel>.DataTableToList(tt);
+                        TiltSensorModelList.Clear();
+                        if (t1 != null)
+                        {
+                            for (int i = 0; i < t1.Count; i++)
+                            {
+                                t1[i].HandleData();
+                                TiltSensorModelList.Add(t1[i]);
+                            }
+                        }
+                    }
                     break;
             }
         }
-
-        private void btnCollect_Click(object sender, RoutedEventArgs e)
+        public ObservableCollection<TiltSensorModel> TiltSensorModelList = new ObservableCollection<TiltSensorModel>();
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            TiltSensorViewModel.Dispose();
         }
     }
 }

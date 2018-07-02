@@ -198,6 +198,14 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Com.Dave.Common\Com.Dave.Common.csproj">
+      <Project>{7f496ddc-a013-478e-a413-bd8b6e38afd4}</Project>
+      <Name>Com.Dave.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Dave.DAL\Com.Dave.DAL.csproj">
+      <Project>{C128CA4A-3C9C-40D0-99BA-A480B4DC7E6B}</Project>
+      <Name>Com.Dave.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TiltSensor\TiltSensor.csproj">
       <Project>{df1eee36-b41c-4cc5-9f48-c5ce4e0d429f}</Project>
       <Name>TiltSensor</Name>

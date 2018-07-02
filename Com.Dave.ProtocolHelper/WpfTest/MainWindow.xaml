@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:WpfTest"
         xmlns:sparrow="http://sparrowtoolkit.codeplex.com/wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" Closing="Window_Closing">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -30,11 +30,12 @@
             <TextBlock Text="串口"  VerticalAlignment="Center" Margin="10"></TextBlock>
             <ComboBox Width="80" VerticalAlignment="Center" Margin="10"  x:Name="cmbSerialPort"></ComboBox>
             <Button Content="开始采集" VerticalAlignment="Center" Margin="10" x:Name="btnCollect" Click="btnSelect_Click"></Button>
-            <Button Content="停止采集" VerticalAlignment="Center" Margin="10" x:Name="btnStopCollect" Click="btnSelect_Click"></Button>
+            <Button Content="停止采集" VerticalAlignment="Center" Margin="10" x:Name="btnStopCollect" Click="btnSelect_Click" IsEnabled="False"></Button>
         </StackPanel>
         <TabControl Grid.Row="1" Background="WhiteSmoke">
             <TabItem x:Name="tab1" Header="实时数据">
-                <DataGrid AutoGenerateColumns="False" x:Name="datagrid1">
+                <DataGrid AutoGenerateColumns="False" x:Name="datagrid1"
+                          CanUserAddRows="False" CanUserDeleteRows="False" >
                     <DataGrid.Columns >
                         <DataGridTextColumn Header="XAxis" Width="*" IsReadOnly="True" Binding="{Binding XAsixDataValue,Mode=OneWay}"></DataGridTextColumn>
                         <DataGridTextColumn Header="YAxis" Width="*" IsReadOnly="True" Binding="{Binding YAsixDataValue,Mode=OneWay}"></DataGridTextColumn>
@@ -78,14 +79,14 @@
                     </StackPanel>
                     <sparrow:SparrowChart Margin="15" Grid.Row="1">
                         <sparrow:SparrowChart.XAxis >
-                            <sparrow:LinearXAxis MinValue="0" MaxValue="100" MinorTicksCount="9" Header="X 轴">
+                            <sparrow:LinearXAxis StringFormat="0.0000"   MinorTicksCount="9" Header="X 轴">
 
                             </sparrow:LinearXAxis>
                         </sparrow:SparrowChart.XAxis>
                         <sparrow:SparrowChart.YAxis>
-                            <sparrow:LinearYAxis MinValue="0" MaxValue="100" MinorTicksCount="19" Header="Y 轴"/>
+                            <sparrow:LinearYAxis StringFormat="0.0000" MinorTicksCount="9" Header="Y 轴"/>
                         </sparrow:SparrowChart.YAxis>
-                        <sparrow:ScatterSeries x:Name="scatter1" XPath="Xpath" YPath="Ypath" Stroke="Black" ScatterSize="5" Fill="Black">
+                        <sparrow:ScatterSeries x:Name="scatter1" XPath="XAsixDataValue" YPath="YAsixDataValue" Stroke="Black" ScatterSize="5" Fill="Black">
 
                         </sparrow:ScatterSeries>
                     </sparrow:SparrowChart>

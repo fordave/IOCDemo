@@ -3,6 +3,7 @@ using Com.Dave.DAL.DBHelper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace TiltSensor
             _connectString = connectString;
             _dataInsert = new DataInsertDelegate(DataInsert);
             _readAngleCommand = StrHexHelper.StringToHex("68 04 00 04 08");
-            _thread = new Thread(ThreadSendAndReceive) { IsBackground = true };
+            
         }
 
         private void FireUpdateEvent()
@@ -105,6 +106,7 @@ namespace TiltSensor
             _port.PortName = portName;
             flag = true;
             _portOperationState = SerialPortOperationState.Send;
+            _thread = new Thread(ThreadSendAndReceive) { IsBackground = true };
             _thread.Start();
         }
         public void StopCollectData()
@@ -113,6 +115,8 @@ namespace TiltSensor
                 return;
             flag = false;
         }
+
+     
         /// <summary>
         /// 
         /// </summary>
