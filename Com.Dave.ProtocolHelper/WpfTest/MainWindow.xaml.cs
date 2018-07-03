@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using TiltSensor.Entity;
 using WpfTest.ViewModel;
 
@@ -32,7 +33,7 @@ namespace WpfTest
             InitializeComponent();
             cmbSerialPort.ItemsSource = SerialPort.GetPortNames();
             datagrid1.ItemsSource = TiltSensorModelCollection;
-            scatter1.PointsSource = TiltSensorModelList;
+           
         }
 
         private void TiltSensor_UpdateEvent(object sender, TiltSensor.UpdateEventArgs e)
@@ -76,6 +77,7 @@ namespace WpfTest
             }
         }
 
+        private PointCollection _pointList = new PointCollection();
         public ObservableCollection<TiltSensorModel> TiltSensorModelCollection1
         {
             get
@@ -88,6 +90,20 @@ namespace WpfTest
                 _tiltSensorModelCollection = value;
             }
         }
+
+        public PointCollection PointList
+        {
+            get
+            {
+                return _pointList;
+            }
+
+            set
+            {
+                _pointList = value;
+            }
+        }
+
         private bool _isEnableButton = false;
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
@@ -120,15 +136,35 @@ namespace WpfTest
                     var tt = TiltSensorViewModel.GetDataTable(((DateTime)picker1.Value).ToString("yyyy-MM-dd HH:mm:ss"), ((DateTime)picker2.Value).ToString("yyyy-MM-dd HH:mm:ss"));
                     if (tt != null)
                     {
+                        var ttt = DateTime.Now;
                         var t1 = DataTableListHelper<TiltSensorModel>.DataTableToList(tt);
-                        TiltSensorModelList.Clear();
+                        var ttt2 = DateTime.Now;
+                        Console.WriteLine("convert cost time: {0}", ttt2 - ttt);
+                        PointList.Clear();
                         if (t1 != null)
                         {
+                            //this.Dispatcher.Invoke(new Action<List<TiltSensorModel>>(args => {
+                            //    for (int i = 0; i < t1.Count; i++)
+                            //    {
+                            //        t1[i].HandleData();
+                            //        TiltSensorModelList.Add(t1[i]);
+                            //    }
+                            //    var ttt3 = DateTime.Now;
+                            //    Console.WriteLine("fill collection cost time: {0}", ttt3 - ttt2);
+                            //}), DispatcherPriority.SystemIdle, t1);
+
+
                             for (int i = 0; i < t1.Count; i++)
                             {
                                 t1[i].HandleData();
-                                TiltSensorModelList.Add(t1[i]);
+                                Point point = new Point() { X = t1[i].XAsixDataValue, Y = t1[i].YAsixDataValue };
+                                PointList.Add(point);
+                                //TiltSensorModelList.Add(t1[i]);
                             }
+                            scatter1.ScatterPoints = PointList;
+                            scatter1.Refresh();
+                            var ttt3 = DateTime.Now;
+                            Console.WriteLine("fill collection cost time: {0}", ttt3 - ttt2);
                         }
                     }
                     break;

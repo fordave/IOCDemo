@@ -113,8 +113,6 @@ namespace Com.Dave.DAL.DBHelper
         {
 
             SQLiteCommand cmd = cn.CreateCommand();
-
-
             cmd.CommandText = commandText;
             if (paramList != null)
             {

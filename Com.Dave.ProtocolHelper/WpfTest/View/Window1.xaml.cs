@@ -32,7 +32,7 @@ namespace WpfTest.View
             //}
 
             InitializeComponent();
-            scatter1.PointsSource = List;
+          //  scatter1.PointsSource = List;
             _timer = new DispatcherTimer() { Interval = new TimeSpan(0,0,4) };
             _timer.Tick += _timer_Tick; ;
         }
