@@ -61,7 +61,7 @@ namespace TiltSensor
             _connectString = connectString;
             _dataInsert = new DataInsertDelegate(DataInsert);
             _readAngleCommand = StrHexHelper.StringToHex("68 04 00 04 08");
-            
+
         }
 
         private void FireUpdateEvent()
@@ -116,7 +116,7 @@ namespace TiltSensor
             flag = false;
         }
 
-     
+
         /// <summary>
         /// 
         /// </summary>
@@ -245,6 +245,28 @@ namespace TiltSensor
         {
             TiltSensorModel sensor = new TiltSensorModel();
             List<StringBuilder> sbList = new List<StringBuilder>();
+            switch (buffer[index + 1])
+            {
+                case 0x10:
+                    GetTiltSensorModel_1(buffer, index, sbList);
+                    break;
+                case 0x0f:
+                    GetTiltSensorModel_2(buffer, index, sbList);
+                    break;
+                case 0x0d:
+                    GetTiltSensorModel_3(buffer, index, sbList);
+                    break;
+            }
+            sensor.XAsixDataValue = double.Parse(sbList[0].ToString());
+            sensor.YAsixDataValue = double.Parse(sbList[1].ToString());
+            sensor.TemperatureDataValue = double.Parse(sbList[2].ToString());
+            sensor.CollectTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            Console.WriteLine(sensor.ToString());
+            return sensor;           
+        }
+
+        private static void GetTiltSensorModel_1(byte[] buffer, int index, List<StringBuilder> sbList)
+        {           
             for (int i = index + 4; i < buffer.Length; i = (i + 4))
             {
                 StringBuilder sb = new StringBuilder();
@@ -270,13 +292,77 @@ namespace TiltSensor
                 if (sbList.Count > 2)
                     break;
             }
-            sensor.XAsixDataValue = double.Parse(sbList[0].ToString());
-            sensor.YAsixDataValue = double.Parse(sbList[1].ToString());
-            sensor.TemperatureDataValue = double.Parse(sbList[2].ToString());
-            sensor.CollectTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            Console.WriteLine(sensor.ToString());
-            return sensor;
+          
         }
+        private static void GetTiltSensorModel_2(byte[] buffer, int index, List<StringBuilder> sbList)
+        {          
+            for (int i = index + 4; i < buffer.Length; i = (i + 4))
+            {
+                StringBuilder sb = new StringBuilder();
+                if ((buffer[i] & 0x10) == 0x10)
+                {
+                    sb.Append("-");
+                }
+                else
+                {
+                    sb.Append("+");
+                }
+                if (sbList.Count == 2)
+                {
+                    sb.Append((buffer[i] & 0x0F) + "");
+                    sb.Append(((buffer[i + 1] & 0xF0) >> 4) + "");
+                    sb.Append(".");
+                    sb.Append((buffer[i + 1] & 0x0F) + "");                 
+                    sb.Append(((buffer[i + 2] & 0xF0) >> 4) + "");
+                    sb.Append((buffer[i + 2] & 0x0F) + "");                 
+                    sbList.Add(sb);
+                }
+                else
+                {
+                    sb.Append((buffer[i] & 0x0F) + "");
+                    sb.Append(((buffer[i + 1] & 0xF0) >> 4) + "");
+                    sb.Append(".");
+                    sb.Append((buffer[i + 1] & 0x0F) + "");                   
+                    sb.Append(((buffer[i + 2] & 0xF0) >> 4) + "");
+                    sb.Append((buffer[i + 2] & 0x0F) + "");
+                    sb.Append(((buffer[i + 3] & 0xF0) >> 4) + "");
+                    sb.Append((buffer[i + 3] & 0x0F) + "");
+                    sbList.Add(sb);
+                }
+                if (sbList.Count > 2)
+                    break;
+            }
+         
+        }
+
+
+        private static void GetTiltSensorModel_3(byte[] buffer, int index, List<StringBuilder> sbList)
+        {           
+            for (int i = index + 4; i < buffer.Length; i = (i + 3))
+            {
+                StringBuilder sb = new StringBuilder();
+                if ((buffer[i] & 0x10) == 0x10)
+                {
+                    sb.Append("-");
+                }
+                else
+                {
+                    sb.Append("+");
+                }
+                sb.Append((buffer[i] & 0x0F) + "");
+                sb.Append(((buffer[i + 1] & 0xF0) >> 4) + "");
+                sb.Append(".");
+                sb.Append((buffer[i + 1] & 0x0F) + "");
+                sb.Append(((buffer[i + 2] & 0xF0) >> 4) + "");
+                sb.Append((buffer[i + 2] & 0x0F) + "");
+                sbList.Add(sb);
+                if (sbList.Count > 2)
+                    break;
+            }
+        
+           
+        }
+
         /// <summary>
         /// 串口发送接收
         /// </summary>
