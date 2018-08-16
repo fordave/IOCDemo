@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFDemo", "WFDemo\WFDemo.csproj", "{F9BBAB2B-3555-4535-A249-39B7DCE6A3E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DXApplication1", "DXApplication1\DXApplication1.csproj", "{F6142B14-4DE8-4000-AB8C-1AC49D6B66EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityIOCDemo", "UnityIOCDemo\UnityIOCDemo.csproj", "{AB95BD16-8DFE-4444-A368-1A818B60A0E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F9BBAB2B-3555-4535-A249-39B7DCE6A3E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9BBAB2B-3555-4535-A249-39B7DCE6A3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9BBAB2B-3555-4535-A249-39B7DCE6A3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9BBAB2B-3555-4535-A249-39B7DCE6A3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6142B14-4DE8-4000-AB8C-1AC49D6B66EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6142B14-4DE8-4000-AB8C-1AC49D6B66EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6142B14-4DE8-4000-AB8C-1AC49D6B66EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6142B14-4DE8-4000-AB8C-1AC49D6B66EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB95BD16-8DFE-4444-A368-1A818B60A0E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB95BD16-8DFE-4444-A368-1A818B60A0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB95BD16-8DFE-4444-A368-1A818B60A0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB95BD16-8DFE-4444-A368-1A818B60A0E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

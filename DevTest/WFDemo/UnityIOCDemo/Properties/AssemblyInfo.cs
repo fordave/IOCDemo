@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("WFDemo")]
+[assembly: AssemblyTitle("UnityIOCDemo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("WFDemo")]
+[assembly: AssemblyProduct("UnityIOCDemo")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("f9bbab2b-3555-4535-a249-39b7dce6a3e7")]
+[assembly: Guid("ab95bd16-8dfe-4444-a368-1a818b60a0e4")]
 
 // 程序集的版本信息由下列四个值组成: 
 //
