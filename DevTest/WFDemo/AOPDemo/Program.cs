@@ -1,12 +1,7 @@
-﻿using AOPDemo.Entities;
-using AOPDemo.Impl;
-using AOPDemo.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
 using System.Text;
-using System.Threading;
 
 namespace AOPDemo
 {
@@ -14,35 +9,19 @@ namespace AOPDemo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("***\r\n Begin program - no logging\r\n");
-            //        IRepository<Customer> customerRepository =
-            //new LoggerRepository<Customer>(new Repository<Customer>());
-            Console.WriteLine("\r\nRunning as admin");
-            Thread.CurrentPrincipal =
-              new GenericPrincipal(new GenericIdentity("Administrator"),
-              new[] { "ADMIN" });
-            IRepository<Customer> customerRepository =
-     RepositoryFactory.Create<Customer>();
-            var customer = new Customer
+            try
             {
-                Id = 1,
-                Name = "Customer 1",
-                Address = "Address 1"
-            };
-            customerRepository.Add(customer);
-            customerRepository.Update(customer);
-            customerRepository.Delete(customer);
-            Console.WriteLine("\r\nRunning as user");
-            Thread.CurrentPrincipal =
-              new GenericPrincipal(new GenericIdentity("NormalUser"),
-              new string[] { });
-            customerRepository.Add(customer);
-            customerRepository.Update(customer);
-            customerRepository.Delete(customer);
-            Console.WriteLine(
-              "\r\nEnd program - logging and authentication\r\n***");
-            Console.WriteLine("\r\nEnd program - no logging\r\n***");
-            Console.ReadLine();
+                var oUserTest1 = new User() { Name = "test2222", PassWord = "yxj" };
+                var oUserTest2 = new User() { Name = "test3333", PassWord = "yxj" };
+                var oUser = UserOperation.GetInstance();
+                oUser.Test(oUserTest1);
+                oUser.Test2(oUserTest1, oUserTest2);
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+            Console.Read();
         }
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("AOPDemo")]
+[assembly: AssemblyTitle("CastleAOPDemo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("AOPDemo")]
+[assembly: AssemblyProduct("CastleAOPDemo")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("1f381626-5945-4fdb-854e-f4e1dd6ba141")]
+[assembly: Guid("9929633e-ac3c-46f5-b79a-de9efd965453")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

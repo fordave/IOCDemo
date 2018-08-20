@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DXApplication1", "DXApplication1\DXApplication1.csproj", "{F6142B14-4DE8-4000-AB8C-1AC49D6B66EA}"
 EndProject
@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityIOCPropertyDIDemo", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityIOCMethodDIDemo", "UnityIOCMethodDIDemo\UnityIOCMethodDIDemo.csproj", "{4E9BF00F-3657-45CA-92A5-9B6C28274CBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOPDemo", "AOPDemo\AOPDemo.csproj", "{01ECF9CC-1C11-41C6-9682-0640AA90D5D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOPDemo", "AOPDemo\AOPDemo.csproj", "{1F381626-5945-4FDB-854E-F4E1DD6BA141}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleAOPDemo", "CastleAOPDemo\CastleAOPDemo.csproj", "{9929633E-AC3C-46F5-B79A-DE9EFD965453}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +37,19 @@ Global
 		{4E9BF00F-3657-45CA-92A5-9B6C28274CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E9BF00F-3657-45CA-92A5-9B6C28274CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E9BF00F-3657-45CA-92A5-9B6C28274CBD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01ECF9CC-1C11-41C6-9682-0640AA90D5D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01ECF9CC-1C11-41C6-9682-0640AA90D5D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01ECF9CC-1C11-41C6-9682-0640AA90D5D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01ECF9CC-1C11-41C6-9682-0640AA90D5D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F381626-5945-4FDB-854E-F4E1DD6BA141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F381626-5945-4FDB-854E-F4E1DD6BA141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F381626-5945-4FDB-854E-F4E1DD6BA141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F381626-5945-4FDB-854E-F4E1DD6BA141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9929633E-AC3C-46F5-B79A-DE9EFD965453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9929633E-AC3C-46F5-B79A-DE9EFD965453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9929633E-AC3C-46F5-B79A-DE9EFD965453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9929633E-AC3C-46F5-B79A-DE9EFD965453}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.PolicyInjection.5.0.505.0\lib\NET35;packages\EntLibContrib.PolicyInjection.5.0.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal
